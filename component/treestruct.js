@@ -8,6 +8,7 @@ export default function TreeStructure(props){
     const [childNodes, setChildNodes] = useState();
     const [expanded, setExpanded] = useState([]);
     const urlid = props.urlid
+    const nodeId = props.id
 
     async function fetchChildNodes(id) {
         try{
@@ -46,8 +47,7 @@ export default function TreeStructure(props){
 
             const data = await res.json()        
             const result = data.data
-            console.log(result)
-
+            
             const payload = {
                 node_id: id,
                 browse_name: props.name,
@@ -69,8 +69,12 @@ export default function TreeStructure(props){
         if (expandingNodes[0]) {
           const childId = expandingNodes[0];
           fetchChildNodes(childId)
-          fetchNodeInfo(childId)
+        //   fetchNodeInfo(childId)
         }
+    };
+
+    const handleClick = (event, nodes) => {
+        fetchNodeInfo(nodes)        
     };
 
     return (
@@ -79,6 +83,7 @@ export default function TreeStructure(props){
             defaultExpandIcon={<ChevronRightIcon/>}
             expanded={expanded}
             onNodeToggle={handleChange}
+            onNodeFocus={handleClick}
         >
             <TreeItem nodeId={props.id} label={props.name}>
                 {childNodes || [<div key="stub" />]}
