@@ -1,0 +1,59 @@
+.container{
+    display: flex;
+}
+
+.banner{
+    width: 500px;
+    height: 100vh;
+    background-color: #FAFBFC;
+}
+
+.banner h1{
+    text-align: center;
+}
+
+.content{
+    width: 90%;
+}
+
+.content form{
+    width: 500px;
+    margin: auto;
+    margin-top: 236px;
+    padding: 1em 2em;
+}
+
+.content h1{
+    margin-bottom: 2em;
+}
+
+.content form input{
+    width: 100%;
+    height: 48px;
+    /* background-color: #f5f5f5; */
+    /* border-style: hidden hidden solid hidden; */
+    border-color: #787878;
+    padding: 0;
+    padding-left: 16px;
+    font-family: 'ubuntu';
+    font-size: 16px;
+    margin-bottom: 2em;
+    margin-top: 0.5em;
+}
+
+.content form button{
+    width: 100%;
+    margin-top: 2em;
+    height: 60px;
+    background: white;
+    /* border: none; */
+    border-radius: 15px;
+    border-color: black;
+    font-size: 18px;
+    color: black;
+    font-family: 'ubuntu';
+}
+
+.bottom{
+    text-align: center;
+}
