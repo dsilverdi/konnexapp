@@ -73,6 +73,9 @@
     height: 200px;
 }
 
+.card h2{
+    margin: 0;
+}
 .card p,
 .card h2{
     width: 100%;
