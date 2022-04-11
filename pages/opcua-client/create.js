@@ -1,41 +1,37 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Layout from "../../component/layout";
 import styles from "../../styles/App.module.css"
 
 export default function CreateClient(){
-    const handleCreate = async () =>{
-        // e.preventDefault()
-        // const { name, type, serveruri } = e.target.elements;
+    const router = useRouter();
+
+    const handleCreate = async (e) =>{
+        e.preventDefault()
+        const { name, serveruri } = e.target.elements;
         
-        // const payload = {
-        //     name: name.value,
-        //     type: type.value,
-        //     metadata: {
-        //         "server-uri":serveruri.value
-        //     }
-        // }
+        const payload = {
+            name: name.value,
+            url: serveruri.value
+        }
 
-        // console.log(payload)
+        const url = "/api/konnex/opcua/addclient"
+        try{
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
 
-        // try{
-        //     const res = await fetch(`http://localhost:443/channel/`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': token,   
-        //         },
-        //         body: JSON.stringify(payload),
-        //     });
+            const data = await res.json();
 
-        //     const data = await res.json()
-            
-        //     console.log(data);
-        //     alert("Berhasil Buat Channel Baru");
-
-        //     router.push('/iot')
-        // }catch (err){
-        //     console.log(err)
-        // }
+            alert("Sukses Koneksi Client")
+            router.push('/opcua-client')
+        }catch(err){
+            alert(err)  
+        }
     }
 
     return (

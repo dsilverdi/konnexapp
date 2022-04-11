@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styles from '../styles/Comp.module.css'
@@ -19,6 +20,10 @@ export default function SideBar() {
 
     return (
         <div className={styles.sidebar}>
+            <div className={styles.logo}>
+                <Image src="/logo.png" alt="Konnex Logo" width="150px" height="45px" />
+            </div>
+            
             <ul>
                 <li>
                     <Link href="/">
@@ -48,6 +53,10 @@ export default function SideBar() {
                 {/* <li>
                     <button onClick={handleLogout}>Log Out</button>
                 </li> */}
+                <li>
+                    <a href="/api/auth/logout">Logout</a>
+                </li>
+                
 
             </ul>
 

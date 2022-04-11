@@ -1,19 +1,19 @@
+import { useUser } from '@auth0/nextjs-auth0';
 import Image from 'next/image';
-import { useState } from 'react'
 import styles from '../styles/Comp.module.css'
 
 export default function Header(){
-    const sess = null
+    const { user, error, isLoading } = useUser();
+
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>{error.message}</div>;
 
     return (
         <div className={styles.header}>
-            <h2>Konnex IoT</h2>
-            <div className={styles.userdisplay}>
-                <p>Personal Account</p>
+                <p>{user.name}</p>
                 <div className={styles.useravatar}>
-                    <Image src="/user-avatar.png" alt="User Avatar" width={32} height={32} />
+                    <img src={user.picture} alt="User Avatar"/>
                 </div>
-            </div>           
         </div>
     )
 }

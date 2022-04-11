@@ -3,9 +3,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Layout from "../component/layout";
 import styles from "../styles/App.module.css"
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { loadingButtonClasses } from "@mui/lab";
 
 export default function OpcuaClient(){
     const [client, setClient] = useState([])
+    const [loading, setLoading] = useState(false) 
     const router = useRouter()
 
     const renderClients = (client) => {
@@ -16,28 +19,24 @@ export default function OpcuaClient(){
         return (
                 client.map((client,index)=>(
                     <div key={index} className={styles.card} onClick={e => {handlePush(client.id)}}>
-                        <h2>{client.url}</h2>
+                        <h2>{client.name}</h2>
                         <p><span>opcua-client</span></p>
-                        <p>{client.id}</p>
+                        <p>{client.url}</p>
                     </div>
                 )) 
         )
     }
 
     const GetClient = async () => {
+        const url = "api/konnex/opcua/getclient"
         try{
-            const res = await fetch(`http://localhost:8000/client`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',   
-                },
-            });
-
-            const data = await res.json()        
-            console.log(data)
+            setLoading(true)
+            const res = await fetch(url);
+            const data = await res.json();
             setClient(data.data)
+            setLoading(false)
         }catch(err){
-            alert(err)
+            alert(err)  
         }
     }
 
@@ -57,7 +56,8 @@ export default function OpcuaClient(){
                 </Link>
 
                 <div className={styles.grid}>
-                    {client != null ?  renderClients(client): 
+                    {loading?<div className={styles.norender}>Fetching Data ...Loading</div>:null}
+                    {client != null ?  renderClients(client):
                     
                     <div className={styles.norender}>No Data Provided</div>}      
                 </div>
@@ -65,3 +65,5 @@ export default function OpcuaClient(){
         </Layout>
     )
 }
+
+export const getServerSideProps = withPageAuthRequired();
