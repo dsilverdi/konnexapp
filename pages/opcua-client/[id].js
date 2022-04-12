@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Layout from "../../component/layout";
 import TreeStructure from "../../component/treestruct";
 import styles from "../../styles/App.module.css"
+import DeleteIcon from '@mui/icons-material/Delete';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 
@@ -12,6 +13,8 @@ export default function Client(){
     // const [loading, setLoading] = useState(true);
     const [node, setNode] = useState({})
     const [logging, setLogging] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [client, setClient] = useState()
     const [MySocket, setMySocket] = useState()
     const router = useRouter()
     const {id} = router.query
@@ -60,9 +63,6 @@ export default function Client(){
     }
 
     const handleMonitor = () =>{
-        // console.log(logging.length)
-        // const arr = logging
-        // arr.push("Clicked this")
         if (MySocket != null) {
             setLogging([...logging, `Disconnecting Socket`])
             MySocket.close();
@@ -83,6 +83,26 @@ export default function Client(){
             setLogging((prevMessages) => [...prevMessages, `Data: ${dataval} | timestamp: ${timestamp}`])
         };
     }
+
+    const handleDelete = () => {
+
+    }
+
+    const getClientInfo = async () =>{
+        const url = `/api/konnex/opcua/getclient?id=${id}`
+        console.log(id)
+        try{
+            setLoading(true)
+            const res = await fetch(url);
+            const data = await res.json();
+            // setClient(data.data)
+            console.log(data)
+            setClient(data.data)
+            setLoading(false)
+        }catch(err){
+            alert(err)  
+        }
+    }
     
     const AlwaysScrollToBottom = () => {
         const elementRef = useRef();
@@ -92,12 +112,28 @@ export default function Client(){
 
     useEffect(()=>{
         setLogging(["Monitor OPC-UA node"])
+
+        if (id) {
+            getClientInfo()    
+        }
+        
     },[router.isReady])
 
     return (
         <Layout>
             <div className={styles.container}>
                 <Link href="/opcua-client"><h3>&#8636;	Back</h3></Link>
+                {loading?null:(
+                    <>
+                        <h1>{client.name}</h1>
+                        <p><span>{client.url}</span></p>
+                    </>
+                )}                
+
+                <button className={styles.warn} onClick={handleDelete}>
+                    <DeleteIcon/>
+                    <p>Delete Client</p>
+                </button>
 
                 <div className={styles.contentwrapper}>
                     <div className={styles.canvastree}>

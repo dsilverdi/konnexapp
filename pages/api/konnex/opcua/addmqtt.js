@@ -1,17 +1,18 @@
 import {getAccessToken, getSession, withApiAuthRequired} from "@auth0/nextjs-auth0";
   
-export default withApiAuthRequired(async function getClient(req, res) {
+export default withApiAuthRequired(async function addMqttVariable(req, res) {
     const {accessToken} = await getAccessToken(req,res)
     // const session = await getSession(req, res);
     // const accessToken = session?.idToken;
-    const id = req.query.id
+    
     try{
-        const response = await fetch(`http://localhost:8000/client?id=${id}`, {
-            method: 'GET',
+        const response = await fetch(`http://localhost:9000/uaserver/variable?type=mqtt`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`   
+                //'Authorization': `Bearer ${accessToken}`   
             },
+            body: JSON.stringify(req.body),
         });
         const data = await response.json();
         res.status(200).json(data);

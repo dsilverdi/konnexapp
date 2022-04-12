@@ -28,7 +28,7 @@ export default function OpcuaClient(){
     }
 
     const GetClient = async () => {
-        const url = "api/konnex/opcua/getclient"
+        const url = "api/konnex/opcua/getclientlist"
         try{
             setLoading(true)
             const res = await fetch(url);
