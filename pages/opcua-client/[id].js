@@ -84,19 +84,28 @@ export default function Client(){
         };
     }
 
-    const handleDelete = () => {
-
+    const handleDelete = async () => {
+        if (confirm('Yakin ingin menghapus channel ini?')){
+            const url = `/api/konnex/opcua/deleteclient?id=${id}`
+            try{
+                const res = await fetch(url);
+                const data = await res.json();
+                console.log(data)
+                router.push('/opcua-client')
+            }catch(err){
+                alert(err)  
+            }
+        }        
     }
 
     const getClientInfo = async () =>{
         const url = `/api/konnex/opcua/getclient?id=${id}`
-        console.log(id)
+       
         try{
             setLoading(true)
             const res = await fetch(url);
             const data = await res.json();
             // setClient(data.data)
-            console.log(data)
             setClient(data.data)
             setLoading(false)
         }catch(err){

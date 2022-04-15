@@ -1,18 +1,21 @@
-import { useUser } from '@auth0/nextjs-auth0';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { userService } from '../services/user.service';
 import styles from '../styles/Comp.module.css'
 
 export default function Header(){
-    const { user, error, isLoading } = useUser();
+    const [user, setUser] = useState(null);
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>{error.message}</div>;
-
+    useEffect(() => {
+        const subscription = userService.user.subscribe(x => setUser(x));
+        return () => subscription.unsubscribe();
+    }, []);
+    
     return (
         <div className={styles.header}>
-                <p>{user.name}</p>
+                <p>{user?user.name:"Personal"}</p>
                 <div className={styles.useravatar}>
-                    <img src={user.picture} alt="User Avatar"/>
+                    <Image src="/user-avatar.png" alt="User Avatar" width={25} height={25}/>
                 </div>
         </div>
     )

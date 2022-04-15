@@ -2,7 +2,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Layout from "../../component/layout";
-import styles from "../../styles/App.module.css"
+import styles from "../../styles/App.module.css";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Server(){
     const [server, setServer] = useState()
@@ -23,6 +24,20 @@ export default function Server(){
         }
     }
 
+    const handleDelete = async () => {
+        if (confirm('Yakin ingin menghapus channel ini?')){
+            const url = `/api/konnex/opcua/deleteserver?id=${id}`
+            try{
+                const res = await fetch(url);
+                const data = await res.json();
+                // console.log(data)
+                router.push('/opcua-server')
+            }catch(err){
+                alert(err)  
+            }
+        }
+    }
+
     const renderServer = (server) =>{
         return (
             <div>
@@ -35,9 +50,16 @@ export default function Server(){
                     <h3><span>{server.endpoint}</span></h3>
                     <p>Connect Device to OPC UA Server</p>
 
-                    <Link href={`/opcua-server/${id}/device`}>
-                        <button className={styles.primary}> Add New Device</button>
-                    </Link>
+                    <div className={styles.contentwrapper}>
+                        <Link href={`/opcua-server/${id}/device`}>
+                            <button className={styles.primary}> Add New Device</button>
+                        </Link>
+
+                        <button className={styles.warn} onClick={handleDelete}>
+                            <DeleteIcon/>
+                            <p>Delete Server</p>
+                        </button>
+                    </div>                    
                 </div>
                 
 

@@ -13,18 +13,26 @@
 }
 
 .content{
-    width: 90%;
+    width: 600px;
+    margin: auto;
+    background-color: white;
+    padding: 1em 1em;
+    border: 1px solid #eaeaea;
+    margin-top: 150px;
 }
 
 .content form{
     width: 500px;
     margin: auto;
-    margin-top: 236px;
     padding: 1em 2em;
 }
 
-.content h1{
+.content h1, .content p{
+    margin: auto;
     margin-bottom: 2em;
+    text-align: center;
+    width: 70%;
+    color: #7a7a7a;    
 }
 
 .content form input{
@@ -43,17 +51,21 @@
 
 .content form button{
     width: 100%;
-    margin-top: 2em;
+    margin-top: 1em;
     height: 60px;
-    background: white;
+    background-color: #3c6ac3;
     /* border: none; */
-    border-radius: 15px;
-    border-color: black;
     font-size: 18px;
-    color: black;
+    color: white;
     font-family: 'ubuntu';
 }
 
 .bottom{
     text-align: center;
+    margin-bottom: 2em;
+}
+
+.logo{
+    text-align: center;
+    margin-top: 3em;
 }

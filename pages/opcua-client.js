@@ -3,8 +3,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Layout from "../component/layout";
 import styles from "../styles/App.module.css"
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-import { loadingButtonClasses } from "@mui/lab";
 
 export default function OpcuaClient(){
     const [client, setClient] = useState([])
@@ -33,6 +31,7 @@ export default function OpcuaClient(){
             setLoading(true)
             const res = await fetch(url);
             const data = await res.json();
+            console.log(data)
             setClient(data.data)
             setLoading(false)
         }catch(err){
@@ -65,5 +64,3 @@ export default function OpcuaClient(){
         </Layout>
     )
 }
-
-export const getServerSideProps = withPageAuthRequired();

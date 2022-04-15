@@ -1,10 +1,4 @@
-import {getAccessToken, getSession, withApiAuthRequired} from "@auth0/nextjs-auth0";
-  
-export default withApiAuthRequired(async function getServerList(req, res) {
-    const {accessToken} = await getAccessToken(req,res)
-    // const session = await getSession(req, res);
-    // const accessToken = session?.idToken;
-
+export default async function getServerList(req, res) {
     try{
         const response = await fetch(`http://localhost:9000/uaserver`, {
             method: 'GET',
@@ -19,4 +13,4 @@ export default withApiAuthRequired(async function getServerList(req, res) {
         console.log(err)
     }
     
-});
+};

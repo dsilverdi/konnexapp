@@ -1,7 +1,7 @@
-export default async function getServer(req, res) {    
+export default async function deleteServer(req, res) {  
     try{
         const response = await fetch(`http://localhost:9000/uaserver?id=${req.query.id}`, {
-            method: 'GET',
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 //'Authorization': `Bearer ${accessToken}`   

@@ -1,22 +1,18 @@
 import Image from 'next/image';
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { userService } from '../services/user.service';
 import styles from '../styles/Comp.module.css'
 
 export default function SideBar() {
     const router = useRouter()
     const activeLink = (url, pathname) => pathname === url ? styles.activeLink : "";
-    // const {logout} = useUserAuth();
-
-    // const handleLogout = async ()=>{
-    //     try {
-    //         logout()
-    //         router.push('/login')
-    //     }catch (error) {
-    //         alert(error)
-    //     }
-        
-    // }
+   
+    function logout() {
+        if (confirm('Logout Akun?')){
+            userService.logout();
+        }
+    }
 
     return (
         <div className={styles.sidebar}>
@@ -49,12 +45,8 @@ export default function SideBar() {
                     </Link>
                 </li>
 
-
-                {/* <li>
-                    <button onClick={handleLogout}>Log Out</button>
-                </li> */}
                 <li>
-                    <a href="/api/auth/logout">Logout</a>
+                    <a onClick={logout}>Logout</a>
                 </li>
                 
 

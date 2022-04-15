@@ -1,8 +1,10 @@
-export default async function getClient(req, res) {
+export default async function deleteClient(req, res) {
+    const {accessToken} = await getAccessToken(req,res)
+ 
     const id = req.query.id
     try{
         const response = await fetch(`http://localhost:8000/client?id=${id}`, {
-            method: 'GET',
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json', 
             },
