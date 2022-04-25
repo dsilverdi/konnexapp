@@ -82,7 +82,11 @@ export default function AddDevice(){
                 <input name="browseName" placeholder="Ex - HumidityValue" />
                 
                 <label>Data Type</label>
-                <input name="dataType" placeholder="Tipe Data" />    
+                <select name="dataType">
+                        <option value="">Pilih Tipe Data</option>
+                        <option value="Double">Double</option>
+                        <option value="String">String</option>
+                </select>    
                 
                 <label>Host</label>
                 <input name="host" placeholder="Host MQTT" />

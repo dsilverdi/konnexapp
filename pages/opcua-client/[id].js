@@ -7,6 +7,7 @@ import TreeStructure from "../../component/treestruct";
 import styles from "../../styles/App.module.css"
 import DeleteIcon from '@mui/icons-material/Delete';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { userService } from "../../services/user.service";
 
 
 export default function Client(){
@@ -99,12 +100,18 @@ export default function Client(){
     }
 
     const getClientInfo = async () =>{
-        const url = `/api/konnex/opcua/getclient?id=${id}`
-       
+        const user = userService.userValue
+
         try{
             setLoading(true)
-            const res = await fetch(url);
-            const data = await res.json();
+            const response = await fetch(`http://localhost:8000/client?id=${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'Authorization': `Bearer ${user.token}`  
+                },
+            });
+            const data = await response.json();
             // setClient(data.data)
             setClient(data.data)
             setLoading(false)

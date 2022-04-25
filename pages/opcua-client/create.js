@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "../../component/layout";
+import { userService } from "../../services/user.service";
 import styles from "../../styles/App.module.css"
 
 export default function CreateClient(){
@@ -15,17 +16,18 @@ export default function CreateClient(){
             url: serveruri.value
         }
 
-        const url = "/api/konnex/opcua/addclient"
+        const user = userService.userValue
         try{
-            const res = await fetch(url, {
+            const response = await fetch(`http://localhost:8000/client`, {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`   
                 },
                 body: JSON.stringify(payload),
-            })
+            });
 
-            const data = await res.json();
+            const data = await response.json();
 
             alert("Sukses Koneksi Client")
             router.push('/opcua-client')

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Layout from "../component/layout";
+import { userService } from "../services/user.service";
 import styles from "../styles/App.module.css"
 
 export default function OpcuaClient(){
@@ -26,12 +27,19 @@ export default function OpcuaClient(){
     }
 
     const GetClient = async () => {
-        const url = "api/konnex/opcua/getclientlist"
+        const user = userService.userValue
+        
         try{
             setLoading(true)
-            const res = await fetch(url);
-            const data = await res.json();
-            console.log(data)
+            const response = await fetch(`http://localhost:8000/client`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${user.token}`  
+            },
+            });
+            const data = await response.json();
+            
             setClient(data.data)
             setLoading(false)
         }catch(err){
