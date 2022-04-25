@@ -67,7 +67,7 @@
 .card {
     margin-right: 2rem;
     margin-bottom: 2rem;
-    padding: 1.5rem;
+    padding: 1rem 1.5rem;
     /* text-align: left; */
     background-color: white;
     color: inherit;
@@ -76,7 +76,7 @@
     border-radius: 10px;
     transition: color 0.15s ease, border-color 0.15s ease;
     width: 300px;
-    height: 200px;
+    height: 220px;
 }
 
 .card h2{
@@ -92,6 +92,19 @@
 
 .card:hover{
     border-color: #3c6ac3;
+}
+
+.card .rightWrapper{
+    text-align: right;
+}
+
+.card .rightWrapper a{
+    color: red;
+}
+
+.card .rightWrapper a:hover{
+    cursor: pointer;
+    color: #787878;
 }
 
 .container h3{
@@ -245,3 +258,4 @@
 .monitor ul li span{
     color: greenyellow;
 }
+

@@ -38,6 +38,25 @@ export default function Server(){
         }
     }
 
+    const handleDeleteNode = async (nodeid) => {
+        if (confirm('Yakin ingin menghapus device ini?')){
+            try{
+                const res = await fetch(`http://localhost:9000/uaserver/variable?id=${id}&node=${nodeid}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',   
+                    }
+                });
+
+                const data = await res.json();
+                router.reload(window.location.pathname);
+                
+            }catch(err){
+                alert(err)  
+            }
+        }
+    }
+
     const renderServer = (server) =>{
         return (
             <div>
@@ -74,6 +93,9 @@ export default function Server(){
                                         <p>HOST: {device.host} <br/>
                                         PORT: {device.port} <br/>
                                         TOPIC: {device.topic}</p>
+                                        <div className={styles.rightWrapper}>
+                                            <a onClick={()=>{handleDeleteNode(device.node_id)}}>Delete</a>
+                                        </div>
                                     </div>
                                 )
                             }
