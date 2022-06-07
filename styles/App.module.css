@@ -2,6 +2,11 @@
     padding: 0 2rem;
 }
 
+.flexbox{
+    display: flex;
+    align-items: center;
+}
+
 .primary{
     background-color: #3c6ac3;
     border: none;
@@ -239,6 +244,8 @@
     border: 1px solid #eaeaea;
     height: 350px;
     width: 100%;
+    overflow-y: auto;
+    margin-bottom: 3em;
 }
 
 .monitor{

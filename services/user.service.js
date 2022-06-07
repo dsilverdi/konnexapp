@@ -24,17 +24,22 @@ async function login(payload) {
             },
             body: JSON.stringify(payload),
         });
+
+        if (!response.ok){
+            throw new Error("HTTP status " + response.status);
+        }
         const data = await response.json();
 
         const user = data.data
         if (user){
             userSubject.next(user)
             localStorage.setItem('user', JSON.stringify(user));
-        }        
-
+        }  
+        
         return user
 
     }catch(err){
+        alert("Gagal Login")
         console.log(err)
     }
 }

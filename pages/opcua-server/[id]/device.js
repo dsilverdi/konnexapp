@@ -31,7 +31,7 @@ export default function AddDevice(){
             server_id: id,
             device_name : deviceName.value,
             browse_name : browseName.value,
-            data_type : dataType.value,
+            data_type : "String",
             host : host.value,
             port : port.value,
             topic : topic.value
@@ -54,9 +54,9 @@ export default function AddDevice(){
             console.log(data)
 
             if (data.message == "Error"){
-                alert("gagal membuat server", data.data)
+                alert("Gagal Menambahkan Device", data.data)
             }else{
-                alert("Sukses Membuat Server")
+                alert("Sukses Menambahkan Device")
                 router.push(`/opcua-server/${id}`)
             }
 
@@ -81,12 +81,12 @@ export default function AddDevice(){
                 <label>Browse Name</label>
                 <input name="browseName" placeholder="Ex - HumidityValue" />
                 
-                <label>Data Type</label>
+                {/* <label>Data Type</label>
                 <select name="dataType">
                         <option value="">Pilih Tipe Data</option>
                         <option value="Double">Double</option>
                         <option value="String">String</option>
-                </select>    
+                </select>     */}
                 
                 <label>Host</label>
                 <input name="host" placeholder="Host MQTT" />
@@ -98,7 +98,7 @@ export default function AddDevice(){
                 <input name="topic" placeholder="Message Topic" />    
                 <br/>
 
-                <button type="submit">Create New Server</button>
+                <button type="submit">Add New Device</button>
             </form>
            )
         }else if (deviceType == 'modbus') {
@@ -112,16 +112,6 @@ export default function AddDevice(){
                 
                 <label>Data Type</label>
                 <input name="dataType" type="number" placeholder="Server Uri" />    
-{/*                 
-                <label>Host</label>
-                <input name="host" type="number" placeholder="Server Uri" />
-
-                <label>Port</label>
-                <input name="port" type="number" placeholder="Server Uri" />
-
-                <label>Topic</label>
-                <input name="topic" type="name" placeholder="Server Uri" />    
-                <br/> */}
 
                 <button type="submit">Create New Server</button>
             </form>

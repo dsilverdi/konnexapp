@@ -1,7 +1,6 @@
-import { style } from "@mui/system";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../../component/layout";
 import TreeStructure from "../../component/treestruct";
 import styles from "../../styles/App.module.css"
@@ -11,9 +10,10 @@ import { userService } from "../../services/user.service";
 
 
 export default function Client(){
-    // const [loading, setLoading] = useState(true);
     const [node, setNode] = useState({})
-    const [logging, setLogging] = useState([])
+    const [monitorData, setMonitorData] = useState([])
+    const [monitored, setMonitored] = useState(false)
+    // const [logging, setLogging] = useState([])
     const [loading, setLoading] = useState(true)
     const [client, setClient] = useState()
     const [MySocket, setMySocket] = useState()
@@ -64,13 +64,20 @@ export default function Client(){
     }
 
     const handleMonitor = () =>{
-        if (MySocket != null) {
-            setLogging([...logging, `Disconnecting Socket`])
+        if (MySocket) {
+            // setLogging([...logging, `Disconnecting Socket`])
+            console.log("socket exist")
+            setMonitored(false)
             MySocket.close();
+            setMySocket(null)
+            return
         }
-        setLogging([...logging, `Monitoring ${node.browse_name}`])
+
+
+        // setLogging([...logging, `Monitoring ${node.browse_name}`])
         const client = new W3CWebSocket(`ws://localhost:8000/client/monitor?id=${id}&node=${node.node_id}`);
 
+        setMonitored(true)
         setMySocket(client);
 
         client.onopen = () => {
@@ -81,7 +88,12 @@ export default function Client(){
             console.log(message);
             const dataval = message.data;
             const timestamp = message.timeStamp;
-            setLogging((prevMessages) => [...prevMessages, `Data: ${dataval} | timestamp: ${timestamp}`])
+            const payload = {
+                data : dataval,
+                time: timestamp
+            }
+            setMonitorData((prev) => [...prev, payload])
+            // setLogging((prevMessages) => [...prevMessages, `Data: ${dataval} | timestamp: ${timestamp}`])
         };
     }
 
@@ -120,14 +132,14 @@ export default function Client(){
         }
     }
     
-    const AlwaysScrollToBottom = () => {
-        const elementRef = useRef();
-        useEffect(() => elementRef.current.scrollIntoView());
-        return <div ref={elementRef} />;
-    };
+    // const AlwaysScrollToBottom = () => {
+    //     // const elementRef = useRef();
+    //     // useEffect(() => elementRef.current.scrollIntoView());
+    //     // return <div ref={elementRef} />;
+    // };
 
     useEffect(()=>{
-        setLogging(["Monitor OPC-UA node"])
+        // setLogging(["Monitor OPC-UA node"])
 
         if (id) {
             getClientInfo()    
@@ -160,24 +172,35 @@ export default function Client(){
                     </div>
                 </div>
                 
-                <button className={styles.primary} onClick={handleMonitor}>Monitor {node ? node.browse_name : null}</button>
-                <div className={styles.canvasmonitor}>                    
-                    <div className={styles.monitor}>
-                        <ul>
+                <div className={styles.flexbox}>
+                    <button className={styles.primary} onClick={handleMonitor}>Monitor {node ? node.browse_name : null}</button>
+                    {monitored? (<h2><span>monitoring {node.browse_name} data</span></h2>):null}
+                </div>
+                    
+                <div className={styles.canvasmonitor}>
+                <table>
+                    <thead>
+                        <tr>
+                            <th key="1">Data Value</th>
+                            <th key="2">Timestamp (Unix)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                             {
-                                logging.map((l, index)=>{
-                                    const date = new Date()
+                                monitorData.map((m, index)=>{
                                     return (
-                                        <li key={index}><span>[KONNEX OPCUA {date.toDateString()}]</span> {l}</li>
+                                        <tr key = {index}>
+                                            <td>{m.data}</td>
+                                            <td>{m.time}</td>
+                                        </tr>
                                     )                                    
                                 })
                             }
-                            <AlwaysScrollToBottom/>
-                        </ul>                        
-                    </div>
+                        
+                    </tbody>
+                </table>                    
                 </div>
                 
-                {/* {loading ? <div className={styles.norender}>No Data Provided</div> : renderData()} */}
             </div>      
         </Layout>    
     )

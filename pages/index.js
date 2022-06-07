@@ -24,17 +24,17 @@ export default function Home() {
         </p>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
+          <a href="/opcua-server" className={styles.card}>
+            <h2>Create Server &rarr;</h2>
+            <p>Create OPC UA Server, Connect your IoT Device</p>
           </a>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
+          <a href="/opcua-client" className={styles.card}>
+            <h2>Create Client &rarr;</h2>
+            <p>Create OPC UA Client, Monitor your IoT Data</p>
           </a>
 
-          <a
+          {/* <a
             href="https://github.com/vercel/next.js/tree/canary/examples"
             className={styles.card}
           >
@@ -50,7 +50,7 @@ export default function Home() {
             <p>
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
-          </a>
+          </a> */}
         </div>
       </main>
 

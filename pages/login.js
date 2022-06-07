@@ -17,8 +17,10 @@ export default function Login() {
         }
 
         try{
-            await userService.login(payload)
-            alert("sukses login akun")
+            const user =await userService.login(payload)
+            if (user) {
+                alert("sukses login akun")
+            }
             router.push('/')
         }catch (err) {
             console.log(err)
